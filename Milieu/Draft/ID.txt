@@ -1,0 +1,33 @@
+// === CONFIGURATIE ===
+// Pas alleen deze regel aan met de exacte naam van je laag
+var vaste_laagnaam = "Boorplan" ;   // ←←← vul hier jouw laagnaam in
+
+// Huidige geometrie (meestal punt waarop je klikt)
+var currentGeom = Geometry($feature);
+
+// Haal de vaste laag op
+var laag = FeatureSetByName($map, vaste_laagnaam, ["ID", "Shape"]);
+
+// Controleer of de laag bestaat en toegankelijk is
+if (IsEmpty(laag)) {
+    return "Laag '" + vaste_laagnaam + "' niet gevonden of niet toegankelijk.";
+}
+
+var dichtbij = null;
+var minAfstand = 999999;   // grote startwaarde
+
+// Zoek het dichtstbijzijnde object binnen 10 meter
+for (var f in laag) {
+    var afstand = Distance(currentGeom, Geometry(f));
+    if (afstand < minAfstand && afstand <= 10) {
+        minAfstand = afstand;
+        dichtbij = f;
+    }
+}
+
+// Resultaat
+if (!IsEmpty(dichtbij)) {
+    return dichtbij.ID + "_uitzet";
+} else {
+    return "Geen object binnen 10 m in laag '" + vaste_laagnaam + "'";
+}

@@ -7,6 +7,7 @@ echo.
 echo ==============================================
 echo   Zoeken naar USB-stick met naam "USB-C Stick"
 echo   en kopiëren van BAM\Software\GIS naar C:\GIS
+echo   Managed by GitHUBS
 echo ==============================================
 echo.
 
